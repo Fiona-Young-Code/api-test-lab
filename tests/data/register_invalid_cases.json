@@ -1,0 +1,34 @@
+[
+  {
+    "name": "username too short",
+    "payload": {
+      "username": "fi",
+      "password": "123456"
+    },
+    "expected_status": 422
+  },
+  {
+    "name": "password too short",
+    "payload": {
+      "username": "fiona",
+      "password": "123"
+    },
+    "expected_status": 422
+  },
+  {
+    "name": "empty username",
+    "payload": {
+      "username": "",
+      "password": "123456"
+    },
+    "expected_status": 422
+  },
+  {
+    "name": "empty password",
+    "payload": {
+      "username": "fiona",
+      "password": ""
+    },
+    "expected_status": 422
+  }
+]

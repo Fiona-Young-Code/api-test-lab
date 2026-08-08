@@ -6,16 +6,8 @@ from app.main import app
 
 from app.database import get_user_by_username
 
+from tests.utils.data_loader import load_test_data
 
-# client = TestClient(app)
-
-
-# def setup_function():
-#     users.clear()
-
-# @pytest.fixture(autouse=True)
-# def clear_users():
-#     users.clear()
 
 
 def test_register_user_success(client):
@@ -61,31 +53,17 @@ def test_register_duplicate_username(client):
     }
 
 
-@pytest.mark.parametrize(
-    "payload",
-    [
-        {
-            "username": "fi",
-            "password": "123456",
-        },
-        {
-            "username": "fiona",
-            "password": "123",
-        },
-        {
-            "username": "",
-            "password": "123456",
-        },
-        {
-            "username": "fiona",
-            "password": "",
-        },
-    ],
+REGISTER_INVALID_CASES = load_test_data(
+    "register_invalid_cases.json"
 )
-def test_register_with_invalid_data(payload,client):
+@pytest.mark.parametrize(
+    "case",
+    REGISTER_INVALID_CASES
+)
+def test_register_with_invalid_data(case,client):
     response = client.post(
         "/users/register",
-        json=payload,
+        json=case["payload"],
     )
 
-    assert response.status_code == 422
+    assert response.status_code == case["expected_status"]
